@@ -89,8 +89,8 @@ export default class MapWithClustering extends Component {
                 });
             }
             GLOBAL.superCluster = SuperCluster({
-                radius: width/22,
-                maxZoom: 20
+                radius: 40,
+                maxZoom: 10
             });
             superCluster.load(this.state.markers);
             this.calculateClustersForMap();
@@ -164,9 +164,8 @@ export default class MapWithClustering extends Component {
 
         return (
             <MapView {...this.state.mapProps}
-                     region={this.state.region}
                      initialRegion={this.state.region}
-                     ref={(ref) => this._root = ref}
+                     ref={(ref) => this.root = ref}
                      onRegionChangeComplete={(region) => {
                          if( this.state.mapProps.onRegionChangeComplete){
                              this.state.mapProps.onRegionChangeComplete(region);
