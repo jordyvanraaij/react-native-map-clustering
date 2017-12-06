@@ -72,10 +72,6 @@ export default class CustomMarker extends Component {
             textSize = height/38;
         }
 
-        if(GLOBAL.clusterTextSize){
-            textSize = GLOBAL.clusterTextSize;
-        }
-
         let htmlElement;
         let isCluster;
         if(textForCluster !== ''){

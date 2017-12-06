@@ -15,18 +15,14 @@ export default class MapWithClustering extends Component {
         super(props);
         this.state = {
             clustering: props.clustering,
-            radius: props.radius ? props.radius : width/22,
             region: props.region,
-            initRegion : props.initialRegion ? props.initialRegion : props.region,
+            initRegion : props.region,
             mapProps: null,
             markers: [],
             markersOnMap: [],
             otherChildren: [],
             numberOfMarkers: 0,
         };
-        if(!this.state.region && this.state.initRegion){
-            this.state.region = this.state.initRegion;
-        }
     }
 
     componentWillReceiveProps(nextProps) {
@@ -73,6 +69,7 @@ export default class MapWithClustering extends Component {
                         });
                     }
                 });
+
                 this.state.numberOfMarkers = newArray.length;
                 newArray.map((item) => {
                     let canBeClustered = true;
@@ -92,7 +89,7 @@ export default class MapWithClustering extends Component {
                 });
             }
             GLOBAL.superCluster = SuperCluster({
-                radius: this.state.radius,
+                radius: 40,
                 maxZoom: 10
             });
             superCluster.load(this.state.markers);
@@ -134,7 +131,7 @@ export default class MapWithClustering extends Component {
             if(this.state.region.longitudeDelta>=40){
                 zoom = 0;
             }else{
-                zoom = this.getZoomLevel(bbox).zoom;
+                zoom = this.getZoomLevel(bbox).zoom || 0;
             }
             let cluster = superCluster.getClusters([bbox[0], bbox[1], bbox[2], bbox[3]], zoom);
 
@@ -164,11 +161,10 @@ export default class MapWithClustering extends Component {
         GLOBAL.clusterTextColor = this.props.clusterTextColor;
         GLOBAL.clusterBorderColor = this.props.clusterBorderColor;
         GLOBAL.clusterBorderWidth = this.props.clusterBorderWidth;
-        GLOBAL.clusterTextSize = this.props.clusterTextSize;
 
         return (
             <MapView {...this.state.mapProps}
-                     initialRegion={this.state.initRegion}
+                     initialRegion={this.state.region}
                      ref={(ref) => this.root = ref}
                      onRegionChangeComplete={(region) => {
                          if( this.state.mapProps.onRegionChangeComplete){
@@ -187,6 +183,5 @@ MapWithClustering.defaultProps = {
     clusterTextColor: '#FF5252',
     clusterBorderColor: '#FF5252',
     clusterBorderWidth: 1,
-    clusterTextSize: null,
     clustering: true
 };
