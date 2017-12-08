@@ -16,28 +16,27 @@ export default class MapWithClustering extends Component {
         this.state = {
             clustering: props.clustering,
             region: props.region,
-            initRegion : props.region,
-            mapProps: null,
+            initRegion: props.initialRegion ? props.initialRegion : props.region,
             markers: [],
             markersOnMap: [],
             otherChildren: [],
             numberOfMarkers: 0,
         };
+        if(!this.state.region && this.state.initRegion){
+            this.state.region = this.state.initRegion;
+        }
     }
 
     componentWillReceiveProps(nextProps) {
-        this.state.onClusterPress = nextProps.onClusterPress;
         this.createMarkersOnMap(nextProps);
     }
 
     componentWillMount() {
-        this.state.onClusterPress = this.props.onClusterPress;
         this.createMarkersOnMap(this.props);
     }
 
     createMarkersOnMap(propsData){
         this.state.markers = [];
-        this.state.mapProps = propsData;
         this.state.otherChildren = [];
 
         if (propsData.children !== undefined) {
@@ -69,7 +68,6 @@ export default class MapWithClustering extends Component {
                         });
                     }
                 });
-
                 this.state.numberOfMarkers = newArray.length;
                 newArray.map((item) => {
                     let canBeClustered = true;
@@ -89,8 +87,8 @@ export default class MapWithClustering extends Component {
                 });
             }
             GLOBAL.superCluster = SuperCluster({
-                radius: 40,
-                maxZoom: 10
+                radius: this.props.radius,
+                maxZoom: this.props.maxZoom
             });
             superCluster.load(this.state.markers);
             this.calculateClustersForMap();
@@ -137,7 +135,7 @@ export default class MapWithClustering extends Component {
 
             for(let i = 0; i < cluster.length; i++){
                 this.state.markersOnMap.push(
-                    <CustomMarker key = {i} onClusterPress = {this.state.onClusterPress}
+                    <CustomMarker key = {i} onClusterPress = {this.props.onClusterPress}
                                   customClusterMarkerDesign = {this.props.customClusterMarkerDesign} {...cluster[i]}>
                         { cluster[i].properties.point_count === 0 ?  cluster[i].item : null }
                     </CustomMarker>
@@ -156,19 +154,19 @@ export default class MapWithClustering extends Component {
     }
 
     render() {
-        this.state.clustering = this.props.clustering;
         GLOBAL.clusterColor = this.props.clusterColor;
         GLOBAL.clusterTextColor = this.props.clusterTextColor;
         GLOBAL.clusterBorderColor = this.props.clusterBorderColor;
         GLOBAL.clusterBorderWidth = this.props.clusterBorderWidth;
+        GLOBAL.clusterTextSize = this.props.clusterTextSize;
 
         return (
-            <MapView {...this.state.mapProps}
-                     initialRegion={this.state.region}
+            <MapView {...this.props}
+                     initialRegion={this.state.initRegion}
                      ref={(ref) => this.root = ref}
                      onRegionChangeComplete={(region) => {
-                         if( this.state.mapProps.onRegionChangeComplete){
-                             this.state.mapProps.onRegionChangeComplete(region);
+                         if( this.props.onRegionChangeComplete){
+                             this.props.onRegionChangeComplete(region);
                          }
                          this.onRegionChangeComplete(region);
                      }}>
@@ -183,5 +181,8 @@ MapWithClustering.defaultProps = {
     clusterTextColor: '#FF5252',
     clusterBorderColor: '#FF5252',
     clusterBorderWidth: 1,
-    clustering: true
+    clusterTextSize: null,
+    clustering: true,
+    maxZoom: 10,
+    radius: 40
 };

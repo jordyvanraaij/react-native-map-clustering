@@ -3,7 +3,8 @@
 Simple module that adds map clustering for both iOS and Android.
 
 ### Updates:
-- 1.2.0 version brings new algorithm based on supercluster library. It's super fast now ;)
+- 1.2.4 version includes props for maxZoom and cluster radius
+- 1.2.3 version uses initial region instead of region for performance
 
 
 ### Pre requirements:
@@ -56,9 +57,6 @@ import { Marker } from 'react-native-maps';
 ```
 3. **That's all!**.
 
-### Demo
-![Alt Text](https://raw.githubusercontent.com/venits/react-native-map-clustering/master/demo.gif)
-
 ### Advanced Usage
 
 - **For things like animateToRegion or animateToCoordinate and other methods, all you have to do is to refer to _root in your MapView reference**.
@@ -80,7 +78,7 @@ Example:
             latitudeDelta: 7.5,
             longitudeDelta: 7.5,
         };
-        this.mapView._root.animateToRegion(r, 2000);
+        this.mapView.root.animateToRegion(r, 2000);
     }
 ```
 ### Advanced Usage #2
@@ -95,7 +93,7 @@ Example:
             latitudeDelta: this.mapView.state.region.latitudeDelta - this.mapView.state.region.latitudeDelta/2,
             longitudeDelta: this.mapView.state.region.longitudeDelta - this.mapView.state.region.longitudeDelta/2,
         };
-        this.mapView._root.animateToRegion(newRegion, 1000);
+        this.mapView.root.animateToRegion(newRegion, 1000);
     }
 ```
 2. Add **onClusterPress** prop to your MapView.
@@ -166,6 +164,8 @@ All you have to do is to add 'cluster' prop to marker like this:
 | clusterTextSize | Int    | 18       | Text size for clusters.           |
 | onClusterPress | Function    | null       | Allows you to control cluster on click event.  Function returns coordinate of cluster.         |
 | customClusterMarkerDesign | HTML element    | null       | Custom background for your clusters.           |
+| maxZoom | Int    | 10       | Maximum zoom level at which clusters are generated.           |
+| radius | Int    | 40       | Cluster radius, in pixels.           |
 
 Example of using props:
 ```javascript
@@ -175,22 +175,13 @@ Example of using props:
     clusterTextColor = '#fff'
     clusterBorderColor = '#fff'
     clusterBorderWidth = {4}
-    region={{latitude: 52.5, longitude: 19.2,
+    maxZoom = {8}
+    radius = {50}
+    initialRegion={{latitude: 52.5, longitude: 19.2,
              latitudeDelta: 8.5, longitudeDelta: 8.5}}
     style={{width: mapWidth, height: mapHeight}}>
 </MapView>
 ```
-
-### Support and donations ;)
-
-If you need help or more customized solution email me: tomasz.przybyl.it@gmail.com
-
-**I am a student so any donations will help me to create more cool modules ;)**
-
-**Thanks for any donations, have a great day and Happy Coding ;)**
-
-[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=XN8LRKQRBZJ86)
-
 
 License
 ----
