@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MapView from 'react-native-maps';
+import { MapView } from 'expo';
 import { width as w , height as h } from 'react-native-dimension';
 import CustomMarker from './CustomMarker';
 import SuperCluster from 'supercluster';
