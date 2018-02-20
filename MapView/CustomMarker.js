@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import {Image, Text, View} from  'react-native';
-import {Marker} from 'react-native-maps';
+import { MapView } from 'expo';
 import { width as w , height as h } from 'react-native-dimension';
 
 const height = h(100);
@@ -101,7 +101,7 @@ export default class CustomMarker extends Component {
         if(isCluster === 1){
             if(this.props.onClusterPress){
                 return(
-                    <Marker
+                    <MapView.Marker
                         key = {isCluster}
                         {...this.state.props}
                         coordinate = {coordinates}
@@ -110,16 +110,16 @@ export default class CustomMarker extends Component {
                             this.props.onClusterPress(this.state.coordinates, markers);
                         }}>
                         {htmlElement}
-                    </Marker>
+                    </MapView.Marker>
                 );
             }else{
                 return(
-                    <Marker
+                    <MapView.Marker
                         key = {isCluster}
                         coordinate = {coordinates}
                         {...this.state.props}>
                         {htmlElement}
-                    </Marker>
+                    </MapView.Marker>
                 );
             }
         }else{
