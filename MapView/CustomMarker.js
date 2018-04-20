@@ -45,27 +45,27 @@ export default class CustomMarker extends Component {
         let markerWidth, markerHeight, textSize;
         let point_count = this.state.point_count;
 
-        if(point_count>=2 && point_count<=10){
+        if(point_count>=2 && (GLOBAL.clusterPrecisePointCount || point_count<=10)){
             textForCluster = point_count.toString();
             markerWidth = width*2/15;
             markerHeight = width*2/15;
             textSize = height/40;
-        }if(point_count>10&&point_count<=25){
+        }else if(point_count>10&&point_count<=25){
             textForCluster = '10+';
             markerWidth = width/7;
             markerHeight = width/7;
             textSize = height/40;
-        }if(point_count>25&&point_count<=50){
+        }else if(point_count>25&&point_count<=50){
             textForCluster = '25+';
             markerWidth = width*2/13;
             markerHeight = width*2/13;
             textSize = height/40;
-        }if(point_count>50&&point_count<=100){
+        }else if(point_count>50&&point_count<=100){
             textForCluster = '50+';
             markerWidth = width/6;
             markerHeight = width/6;
             textSize = height/38;
-        }if(point_count>100){
+        }else if(point_count>100){
             textForCluster = '100+';
             markerWidth = width*2/11;
             markerHeight = width*2/11;
@@ -106,7 +106,7 @@ export default class CustomMarker extends Component {
                         {...this.state.props}
                         coordinate = {coordinates}
                         onPress = {()=>{
-                            let markers = superCluster.getLeaves(this.state.clusterId);
+                            let markers = superCluster.getLeaves(this.state.clusterId, GLOBAL.clusterPointLimit);
                             this.props.onClusterPress(this.state.coordinates, markers);
                         }}>
                         {htmlElement}

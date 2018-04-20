@@ -161,7 +161,9 @@ All you have to do is to add 'cluster' prop to marker like this:
 | clusterTextColor   | String | #FF5252 | Color of text in cluster.                                      |
 | clusterBorderColor | String | #FF5252 | Color of border. Set to transparent if you don't want borders. |
 | clusterBorderWidth | Int    | 1       | Width of border. Set to 0 if you don't want borders.           |
-| clusterTextSize | Int    | 18       | Text size for clusters.           |
+| clusterTextSize    | Int    | 18      | Text size for clusters.                                        |
+| clusterPointLimit  | Int    | 10      | Limit the number of points shown in the cluster                |
+| clusterPrecisePointCount | bool   | false   | Set true to give precise point count at cluster, else gives rought ranges e.g. "10+", "25+" |
 | onClusterPress | Function    | null       | Allows you to control cluster on click event.  Function returns coordinate of cluster.         |
 | customClusterMarkerDesign | HTML element    | null       | Custom background for your clusters.           |
 | maxZoom | Int    | 10       | Maximum zoom level at which clusters are generated.           |
@@ -175,6 +177,8 @@ Example of using props:
     clusterTextColor = '#fff'
     clusterBorderColor = '#fff'
     clusterBorderWidth = {4}
+    clusterPrecisePointCount = {true}
+    clusterPointLimit = Infinity
     maxZoom = {8}
     radius = {50}
     initialRegion={{latitude: 52.5, longitude: 19.2,
