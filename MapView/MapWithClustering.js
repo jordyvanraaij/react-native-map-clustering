@@ -159,6 +159,8 @@ export default class MapWithClustering extends Component {
         GLOBAL.clusterBorderColor = this.props.clusterBorderColor;
         GLOBAL.clusterBorderWidth = this.props.clusterBorderWidth;
         GLOBAL.clusterTextSize = this.props.clusterTextSize;
+        GLOBAL.clusterPrecisePointCount = this.props.clusterPrecisePointCount;
+        GLOBAL.clusterPointLimit = this.props.clusterPointLimit;
 
         return (
             <MapView {...this.props}
@@ -182,6 +184,8 @@ MapWithClustering.defaultProps = {
     clusterBorderColor: '#FF5252',
     clusterBorderWidth: 1,
     clusterTextSize: null,
+    clusterPrecisePointCount: false,
+    clusterPointLimit: 10,
     clustering: true,
     maxZoom: 10,
     radius: 40
